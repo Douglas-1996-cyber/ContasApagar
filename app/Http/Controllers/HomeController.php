@@ -27,4 +27,7 @@ class HomeController extends Controller
         $debtor = Debtor::where('user_id', auth()->user()->id)->get();
         return view('debtor.index', ['debtor' => $debtor, 'invalid'=>'']);
     }
+    public function login(){
+        return route('login');
+    }
 }
