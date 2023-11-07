@@ -138,24 +138,38 @@ class BillController extends Controller
         $user_id = auth()->user()->id;
         $invalid = "Nenhum resultado encontrado";
         $mes = $this->mes();
-        if($request->ano == null && $request->mes == 'Mês'   ){
+        if($request->ano == null && $request->mes == 'Mês'){
             return $this->index();
-        }else if($request->ano == null){
+
+        }
+        else if($request->ano == null){
+
             $bill = Bill::where('mes', $request->mes)->where('user_id', $user_id)->get();
             if(sizeof($bill) == 0){
                 return view('bill.index', ['bill'=>$bill,'invalid'=>$invalid, 'mes'=>$mes]);
             }else{
             return view('bill.index', ['bill'=>$bill,'invalid'=>'', 'mes'=>$mes]);
             }
-        }else if($request->mes == 'Mês'){
+
+        }
+        else if($request->mes == 'Mês') {
+
         $bill = Bill::where('ano', $request->ano)->where('user_id', $user_id)->get();
         if(sizeof($bill) == 0){
             return view('bill.index', ['bill'=>$bill,'invalid'=>$invalid, 'mes'=>$mes]);
         }else{
         return view('bill.index', ['bill'=>$bill,'invalid'=>'', 'mes'=>$mes]);
         }
-    }
-    }
+
+        } else{
+            $bill = Bill::where('ano', $request->ano)->where('mes', $request->mes)->where('user_id', $user_id)->get();
+            if(sizeof($bill) == 0){
+                return view('bill.index', ['bill'=>$bill,'invalid'=>$invalid, 'mes'=>$mes]);
+            }else{
+            return view('bill.index', ['bill'=>$bill,'invalid'=>'', 'mes'=>$mes]);
+            }
+         }
+        }
     public function mes(){
         $mes = [
             1 => 'Janeiro',
